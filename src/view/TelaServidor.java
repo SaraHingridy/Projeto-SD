@@ -76,6 +76,8 @@ public class TelaServidor extends javax.swing.JFrame {
 
         jLabel1.setText("Porta de conexão:");
 
+        jTextFieldPorta.setText("12345");
+
         jButtonConectar.setText("Conectar");
         jButtonConectar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

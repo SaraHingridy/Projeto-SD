@@ -1,5 +1,6 @@
 package controller;
 
+import com.google.gson.Gson;
 import java.awt.Color;
 import java.io.IOException;
 import java.net.DatagramPacket;
@@ -7,6 +8,9 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
 import java.util.regex.Pattern;
+import javax.swing.JOptionPane;
+import model.SalaBD;
+import model.SalaVO;
 import view.TelaServidor;
 
 /**
@@ -20,7 +24,8 @@ public class Processador {
     int portaServidor = 0;
     TelaServidor telaServidor;
     byte[] tamanhoPacote = null;
-    
+    Gson gson = new Gson();
+
     private boolean servidorLigado = true;
 
     public Processador(int porta, TelaServidor view) {
@@ -30,8 +35,8 @@ public class Processador {
     }
 
     /**
-     *  Método responsável por criar o socket na porta desejada 
-     * e inicializar a thread de recebimento.
+     * Método responsável por criar o socket na porta desejada e inicializar a
+     * thread de recebimento.
      */
     private void estabelecerConexao() {
         try {
@@ -61,10 +66,10 @@ public class Processador {
                     String conteudoRecebido = new String(datagramPacket.getData());
                     gravarLog("Mensagem RECEBIDA = " + conteudoRecebido.trim() + "\n", Color.darkGray);
 
-                    //tratarPacote(conteudoRecebido, datagramPacket.getAddress(), datagramPacket.getPort());
-                    
+                    tratarPacote(conteudoRecebido, datagramPacket.getAddress(), datagramPacket.getPort());
+
                     //-- Implementação de ECO
-                    enviarMensagem(conteudoRecebido.toUpperCase(), datagramPacket.getAddress(), datagramPacket.getPort());
+                    //enviarMensagem(conteudoRecebido.toUpperCase(), datagramPacket.getAddress(), datagramPacket.getPort());
                     //-- fim ECO
                 } catch (IOException ex) {
 //                    gravarLog("Problema durante o recebimento de mensagens (Thread).\n"
@@ -73,21 +78,58 @@ public class Processador {
             }
         }
     };
-    
+
     /**
-     * Método responsável por verificar a requisição do pacote e direcionar para o método específico.
+     * Método responsável por verificar a requisição do pacote e direcionar para
+     * o método específico.
+     *
      * @param mensagem recebido no pacote e já convertido de bytes para String
      * @param enderecoOrigem endereço que fez a requisição.
      * @param portaOrigem porta que a requisição veio.
      */
-    private void tratarPacote(String mensagem,InetAddress enderecoOrigem, int portaOrigem) {
+    private void tratarPacote(String mensagem, InetAddress enderecoOrigem, int portaOrigem) {
         String[] mensagemParticionada = mensagem.trim().split(Pattern.quote("#"));
-        
-        if(mensagemParticionada[1].equals("nome da tabela")) {
-            // metodos relacionados a tabela
-        } else if(mensagemParticionada[1].equals("nome da tabela 2")) {
+
+        if (mensagemParticionada[1].equalsIgnoreCase("sala")) {
+            SalaVO obj_sala = gson.fromJson(mensagemParticionada[2], SalaVO.class);
+            SalaBD salabd = new SalaBD();
+            
+            if (mensagemParticionada[0].equals("1")) {
+                try {
+                    salabd.insertSala(obj_sala);
+                    this.enviarMensagem("5#Sala cadastrada com sucesso!", enderecoOrigem, portaServidor);
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(null, e);
+                }
+            }
+            else if(mensagemParticionada[0].equals("2")){
+                try{
+                    salabd.alterarSala(obj_sala);
+                    this.enviarMensagem("5#Sala alterada com sucesso", enderecoOrigem, portaServidor);
+                }
+                catch(Exception e){
+                    JOptionPane.showMessageDialog(null, e);
+                }
+            } else if(mensagemParticionada[0].equals("3")){
+                try{
+                    salabd.deletarSala(obj_sala);
+                    this.enviarMensagem("5#Sala removida com sucesso", enderecoOrigem, portaServidor);
+                }
+                catch(Exception e){
+                    JOptionPane.showMessageDialog(null, e);
+                }
+            } else if(mensagemParticionada[0].equals("4")){
+                try{
+                    salabd.consultarSala(obj_sala);
+                    this.enviarMensagem("5#Consulta feita com sucesso!", enderecoOrigem, portaServidor);
+                }
+                catch(Exception e){
+                    JOptionPane.showMessageDialog(null, e);
+                }
+            }
+        } else if (mensagemParticionada[1].equals("nome da tabela 2")) {
             // metodos relacionados a tabela 2
-        } else if(mensagemParticionada[1].equals("nome da tabela 3")) {
+        } else if (mensagemParticionada[1].equals("nome da tabela 3")) {
             // metodos relacionados a tabela 3
         } else {
             // se nenhum pacote corresponder às regras acima, deve cair aqui
@@ -97,6 +139,7 @@ public class Processador {
 
     /**
      * Método responsável por enviar a mensagem para o destino selecionado.
+     *
      * @param mensagem mensagem em texto puro que será enviada.
      * @param ipDestino ip do destino da mensagem.
      * @param portaDestino porta de destino da mensagem.
@@ -117,6 +160,7 @@ public class Processador {
 
     /**
      * Método que grava na interface os logs que são passados.
+     *
      * @param mensagem Mensagem que será gravada.
      * @param corTexto Cor do texto que será exibido. (Color.<cor desejada>)
      */
