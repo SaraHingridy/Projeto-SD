@@ -11,6 +11,8 @@ import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
 import model.SalaBD;
 import model.SalaVO;
+import model.AulaVO;
+import model.AulaBD;
 import view.TelaServidor;
 
 /**
@@ -127,8 +129,43 @@ public class Processador {
                     JOptionPane.showMessageDialog(null, e);
                 }
             }
-        } else if (mensagemParticionada[1].equals("nome da tabela 2")) {
-            // metodos relacionados a tabela 2
+        } else if (mensagemParticionada[1].equalsIgnoreCase("aula")) {
+            AulaVO obj_aula = gson.fromJson(mensagemParticionada[2], AulaVO.class);
+            AulaBD aulabd = new AulaBD();
+            
+            if (mensagemParticionada[0].equals("1")) {
+                try {
+                    aulabd.insertAula(obj_aula);
+                    this.enviarMensagem("5#Aula cadastrada com sucesso!", enderecoOrigem, portaServidor);
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(null, e);
+                }
+            }
+            else if(mensagemParticionada[0].equals("2")){
+                try{
+                    aulabd.alterarAula(obj_aula);
+                    this.enviarMensagem("5#Aula alterada com sucesso", enderecoOrigem, portaServidor);
+                }
+                catch(Exception e){
+                    JOptionPane.showMessageDialog(null, e);
+                }
+            } else if(mensagemParticionada[0].equals("3")){
+                try{
+                    aulabd.deletarAula(obj_aula);
+                    this.enviarMensagem("5#Aula removida com sucesso", enderecoOrigem, portaServidor);
+                }
+                catch(Exception e){
+                    JOptionPane.showMessageDialog(null, e);
+                }
+            } else if(mensagemParticionada[0].equals("4")){
+                try{
+                    aulabd.consultarAula(obj_aula);
+                    this.enviarMensagem("5#Consulta feita com sucesso!", enderecoOrigem, portaServidor);
+                }
+                catch(Exception e){
+                    JOptionPane.showMessageDialog(null, e);
+                }
+            }
         } else if (mensagemParticionada[1].equals("nome da tabela 3")) {
             // metodos relacionados a tabela 3
         } else {
