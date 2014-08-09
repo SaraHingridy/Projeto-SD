@@ -28,7 +28,6 @@ public class Processador {
     TelaServidor telaServidor;
     byte[] tamanhoPacote = null;
     Gson gson = new Gson();
-
     private boolean servidorLigado = true;
 
     public Processador(int porta, TelaServidor view) {
@@ -165,7 +164,7 @@ public class Processador {
                 vo.setPre_requisito("teste");
                 vo.setTitulo("teste");
                 vo.setDisciplina_id(100);
-                this.enviarMensagem("6#"+"disciplina#"+gson.toJson(vo), enderecoOrigem, portaOrigem);
+                this.enviarMensagem("6#" + "disciplina#" + gson.toJson(vo), enderecoOrigem, portaOrigem);
             } else {
                 this.enviarMensagem("5#Ainda nao esta implementado...", enderecoOrigem, portaOrigem);
             }
