@@ -101,8 +101,7 @@ public class SalaBD {
                 query += "and capacidade_alunos = "+salavo.getCapacidade_alunos();
             }            
             System.out.println(query);
-            
-            //stm.executeUpdate(query);
+            stm.executeUpdate(query);
         } catch (SQLException e) {
             throw new Exception(e);
         }
