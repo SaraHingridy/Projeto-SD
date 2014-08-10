@@ -18,6 +18,7 @@ public class AlunoVO {
     private String endereco;
     private String curso;
     private int ano_entrada_curso;
+    private String disciplinas_matriculadas;
 
     /**
      * @return the aluno_id
@@ -115,6 +116,20 @@ public class AlunoVO {
      */
     public void setAno_entrada_curso(int ano_entrada_curso) {
         this.ano_entrada_curso = ano_entrada_curso;
+    }
+
+    /**
+     * @return the disciplinas_matriculadas
+     */
+    public String getDisciplinas_matriculadas() {
+        return disciplinas_matriculadas;
+    }
+
+    /**
+     * @param disciplinas_matriculadas the disciplinas_matriculadas to set
+     */
+    public void setDisciplinas_matriculadas(String disciplinas_matriculadas) {
+        this.disciplinas_matriculadas = disciplinas_matriculadas;
     }
 }
 
