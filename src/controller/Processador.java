@@ -159,7 +159,7 @@ public class Processador {
                 }
             } else if(mensagemParticionada[0].equals("4")){
                 try{
-                    aulabd.consultarAula(obj_aula);
+                    aulabd.consultarAula(obj_aula.disciplina_associada);
                     this.enviarMensagem("5#Consulta feita com sucesso!", enderecoOrigem, portaServidor);
                 }
                 catch(Exception e){

@@ -75,14 +75,14 @@ public class AulaBD {
         }
     }
     
-    public void consultarAula(AulaVO aulavo) throws Exception {
+    public void consultarAula(int disciplina) throws Exception {
         try {
             Statement stm = con.createStatement();
             ResultSet rs;
             String query = "SELECT aula_id, disciplina_associada, sala_aula_associada, conteudo_programatico, alunos_presentes, "+
-                    " FROM aula WHERE 1=1";
+                    " FROM aula WHERE disciplina_associada = '"+disciplina+"' ";
             
-            if(aulavo.getAula_id() != 0) {
+            /*if(aulavo.getAula_id() != 0) {
                 query += " and aula_id = "+aulavo.getAula_id();
             }
             if(aulavo.getDisciplina_associada() != 0) {
@@ -96,7 +96,7 @@ public class AulaBD {
             }
             if(aulavo.getAlunos_presentes() != null) {
                 query += " and alunos_presentes = '"+aulavo.getAlunos_presentes()+"'";
-            }
+            }*/
             System.out.println(query);
             
             //stm.executeUpdate(query);

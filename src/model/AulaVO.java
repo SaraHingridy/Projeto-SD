@@ -9,11 +9,11 @@ package model;
  * @author Rafael
  */
 public class AulaVO {
-    private int aula_id;
-    private int disciplina_associada;
-    private int sala_aula_associada;
-    private String conteudo_programatico;
-    private String alunos_presentes;
+    public int aula_id;
+    public int disciplina_associada;
+    public int sala_aula_associada;
+    public String conteudo_programatico;
+    public String[] alunos_presentes;
 
     public int getAula_id() {
         return aula_id;
@@ -47,11 +47,11 @@ public class AulaVO {
         this.conteudo_programatico = conteudo_programatico;
     }
 
-    public String getAlunos_presentes() {
+    public String[] getAlunos_presentes() {
         return alunos_presentes;
     }
 
-    public void setAlunos_presentes(String alunos_presentes) {
+    public void setAlunos_presentes(String[] alunos_presentes) {
         this.alunos_presentes = alunos_presentes;
     }
 }
