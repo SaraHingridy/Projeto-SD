@@ -9,11 +9,13 @@ import java.net.InetAddress;
 import java.net.SocketException;
 import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
+import model.AlunoBD;
+import model.AlunoVO;
+import model.AulaBD;
+import model.AulaVO;
+import model.DisciplinaVO;
 import model.SalaBD;
 import model.SalaVO;
-import model.AulaVO;
-import model.AulaBD;
-import model.DisciplinaVO;
 import view.TelaServidor;
 
 /**
@@ -168,7 +170,42 @@ public class Processador {
             } else {
                 this.enviarMensagem("5#Ainda nao esta implementado...", enderecoOrigem, portaOrigem);
             }
-        } else {
+        } else if (mensagemParticionada[1].equalsIgnoreCase("aluno")) {
+            AlunoVO obj_aluno = gson.fromJson(mensagemParticionada[2], AlunoVO.class);
+            AlunoBD alunobd = new AlunoBD();
+
+            if (mensagemParticionada[0].equals("1")) {
+                try {
+                    alunobd.insertAluno(obj_aluno);
+                    this.enviarMensagem("5#Aluno cadastrado com sucesso!", enderecoOrigem, portaOrigem);
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(null, e);
+                }
+            } else if (mensagemParticionada[0].equals("2")) {
+                try {
+                    alunobd.alterarAluno(obj_aluno);
+                    this.enviarMensagem("5#Aluno alterado com sucesso", enderecoOrigem, portaOrigem);
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(null, e);
+                }
+            } else if (mensagemParticionada[0].equals("3")) {
+                try {
+                    alunobd.deletarAluno(obj_aluno);
+                    this.enviarMensagem("5#Aluno removido com sucesso", enderecoOrigem, portaOrigem);
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(null, e);
+                }
+            } else if (mensagemParticionada[0].equals("4")) {
+                try {
+                    alunobd.consultarAluno(obj_aluno);
+                    this.enviarMensagem("5#Consulta feita com sucesso!", enderecoOrigem, portaOrigem);
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(null, e);
+                }
+            }
+        }
+        
+        else {
             // se nenhum pacote corresponder às regras acima, deve cair aqui
             // e ser ignorado.
             this.enviarMensagem("5#A estrutura do pacote é inválida. Contate o administrador.", enderecoOrigem, portaOrigem);
