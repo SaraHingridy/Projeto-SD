@@ -15,7 +15,12 @@ public class AlunoVO {
     private int RA;
     private String nome;
     private int idade;
-    private String endereco;
+    private String rua;
+    private String numero;
+    private String bairro;
+    private String cep;
+    private String cidade;
+    private String uf;
     private String curso;
     private int ano_entrada_curso;
     private String disciplinas_matriculadas;
@@ -75,21 +80,6 @@ public class AlunoVO {
     public void setIdade(int idade) {
         this.idade = idade;
     }
-
-    /**
-     * @return the endereco
-     */
-    public String getEndereco() {
-        return endereco;
-    }
-
-    /**
-     * @param endereco the endereco to set
-     */
-    public void setEndereco(String endereco) {
-        this.endereco = endereco;
-    }
-
     /**
      * @return the curso
      */
@@ -130,6 +120,90 @@ public class AlunoVO {
      */
     public void setDisciplinas_matriculadas(String disciplinas_matriculadas) {
         this.disciplinas_matriculadas = disciplinas_matriculadas;
+    }
+
+    /**
+     * @return the rua
+     */
+    public String getRua() {
+        return rua;
+    }
+
+    /**
+     * @param rua the rua to set
+     */
+    public void setRua(String rua) {
+        this.rua = rua;
+    }
+
+    /**
+     * @return the numero
+     */
+    public String getNumero() {
+        return numero;
+    }
+
+    /**
+     * @param numero the numero to set
+     */
+    public void setNumero(String numero) {
+        this.numero = numero;
+    }
+
+    /**
+     * @return the bairro
+     */
+    public String getBairro() {
+        return bairro;
+    }
+
+    /**
+     * @param bairro the bairro to set
+     */
+    public void setBairro(String bairro) {
+        this.bairro = bairro;
+    }
+
+    /**
+     * @return the cep
+     */
+    public String getCep() {
+        return cep;
+    }
+
+    /**
+     * @param cep the cep to set
+     */
+    public void setCep(String cep) {
+        this.cep = cep;
+    }
+
+    /**
+     * @return the cidade
+     */
+    public String getCidade() {
+        return cidade;
+    }
+
+    /**
+     * @param cidade the cidade to set
+     */
+    public void setCidade(String cidade) {
+        this.cidade = cidade;
+    }
+
+    /**
+     * @return the uf
+     */
+    public String getUf() {
+        return uf;
+    }
+
+    /**
+     * @param uf the uf to set
+     */
+    public void setUf(String uf) {
+        this.uf = uf;
     }
 }
 

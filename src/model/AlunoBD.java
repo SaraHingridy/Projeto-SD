@@ -44,7 +44,12 @@ public class AlunoBD {
                     + "    VALUES (" + alunovo.getRA() 
                     + ",\'" + alunovo.getNome() + "\'"
                     + "," + alunovo.getIdade()
-                    + ",\'" + alunovo.getEndereco() + "\'"
+                    + ",\'" + alunovo.getRua() + "\'"
+                    + ",\'" + alunovo.getNumero() + "\'"
+                    + ",\'" + alunovo.getBairro() + "\'"
+                    + ",\'" + alunovo.getCep() + "\'"
+                    + ",\'" + alunovo.getCidade() + "\'"
+                    + ",\'" + alunovo.getUf() + "\'"
                     + ",\'" + alunovo.getCurso() + "\'"
                     + ",\'" + alunovo.getDisciplinas_matriculadas() + ",\'"
                     + "," + alunovo.getAno_entrada_curso()
@@ -60,10 +65,15 @@ public class AlunoBD {
         try {
             Statement stm = con.createStatement();
             String query = "UPDATE aluno"
-                    + " SET RA = " + alunoVO.getRA()
+                  + " SET RA = " + alunoVO.getRA()
                     + ", nome = \'" + alunoVO.getNome() + "\'"
                     + ", idade = " + alunoVO.getIdade()
-                    + ", endereco = \'" + alunoVO.getEndereco() + "\'"
+                    + ", endereco = \'" + alunoVO.getRua() + "\'"
+                    + ", endereco = \'" + alunoVO.getNumero() + "\'"
+                    + ", endereco = \'" + alunoVO.getBairro() + "\'"
+                    + ", endereco = \'" + alunoVO.getCep() + "\'"
+                    + ", endereco = \'" + alunoVO.getCidade() + "\'"
+                    + ", endereco = \'" + alunoVO.getUf() + "\'"
                     + ", curso = \'" + alunoVO.getCurso() + "\'"
                     + ", disciplinas_matriculas = \'" + alunoVO.getDisciplinas_matriculadas() + "\'"
                     + ", ano_entrada_curso = " + alunoVO.getAno_entrada_curso()
@@ -106,8 +116,23 @@ public class AlunoBD {
             if(alunovo.getIdade() != 0) {
                 query += " and idade = "+alunovo.getIdade();
             }
-            if(alunovo.getEndereco() != null) {
-                query += " and endereco = \'"+alunovo.getEndereco()+"\'";
+            if(alunovo.getRua() != null) {
+                query += " and endereco = \'"+alunovo.getRua()+"\'";
+            }
+            if(alunovo.getNumero() != null) {
+                query += " and endereco = \'"+alunovo.getNumero()+"\'";
+            }
+            if(alunovo.getBairro() != null) {
+                query += " and endereco = \'"+alunovo.getBairro()+"\'";
+            }
+            if(alunovo.getCep() != null) {
+                query += " and endereco = \'"+alunovo.getCep()+"\'";
+            }
+            if(alunovo.getCidade() != null) {
+                query += " and endereco = \'"+alunovo.getCidade()+"\'";
+            }
+            if(alunovo.getUf() != null) {
+                query += " and endereco = \'"+alunovo.getUf()+"\'";
             }
             if(alunovo.getCurso() != null) {
                 query += " and curso = \'"+alunovo.getCurso()+"\'";
@@ -117,7 +142,7 @@ public class AlunoBD {
             }
             if(alunovo.getAno_entrada_curso() != 0) {
                 query += "and ano_entrada_curso = "+alunovo.getAno_entrada_curso();
-            }            
+            }              
             System.out.println(query);
             
             //stm.executeUpdate(query);
