@@ -14,11 +14,11 @@ import javax.swing.JOptionPane;
  *
  * @author Rafael
  */
-public class AulaBD {
+public class AulaBD{
     Conexao conexao;
     Connection con;
 
-    public AulaBD() {
+    public AulaBD(){
         try {
             conexao = new Conexao();
             con = conexao.conectar();

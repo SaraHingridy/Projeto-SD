@@ -9,10 +9,13 @@ import java.net.InetAddress;
 import java.net.SocketException;
 import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
+import model.AlunoBD;
+import model.AlunoVO;
+import model.AulaBD;
+import model.AulaVO;
+import model.DisciplinaVO;
 import model.SalaBD;
 import model.SalaVO;
-import model.AulaVO;
-import model.AulaBD;
 import view.TelaServidor;
 
 /**
@@ -27,7 +30,6 @@ public class Processador {
     TelaServidor telaServidor;
     byte[] tamanhoPacote = null;
     Gson gson = new Gson();
-
     private boolean servidorLigado = true;
 
     public Processador(int porta, TelaServidor view) {
@@ -66,16 +68,11 @@ public class Processador {
                     datagramPacket = new DatagramPacket(tamanhoPacote, tamanhoPacote.length);
                     getDatagramSocket().receive(datagramPacket);
                     String conteudoRecebido = new String(datagramPacket.getData());
-                    gravarLog("Mensagem RECEBIDA = " + conteudoRecebido.trim() + "\n", Color.darkGray);
-
+                    gravarLog("Mensagem RECEBIDA = " + conteudoRecebido.trim() + "\n"
+                            + "End. Origem: " + datagramPacket.getAddress().toString() + "\n"
+                            + "Porta Origem: " + datagramPacket.getPort() + "\n", Color.darkGray);
                     tratarPacote(conteudoRecebido, datagramPacket.getAddress(), datagramPacket.getPort());
-
-                    //-- Implementação de ECO
-                    //enviarMensagem(conteudoRecebido.toUpperCase(), datagramPacket.getAddress(), datagramPacket.getPort());
-                    //-- fim ECO
                 } catch (IOException ex) {
-//                    gravarLog("Problema durante o recebimento de mensagens (Thread).\n"
-//                            + "Mensagem de erro: " + ex.getMessage() + "\n", Color.red);
                 }
             }
         }
@@ -95,82 +92,123 @@ public class Processador {
         if (mensagemParticionada[1].equalsIgnoreCase("sala")) {
             SalaVO obj_sala = gson.fromJson(mensagemParticionada[2], SalaVO.class);
             SalaBD salabd = new SalaBD();
-            
+
             if (mensagemParticionada[0].equals("1")) {
                 try {
                     salabd.insertSala(obj_sala);
-                    this.enviarMensagem("5#Sala cadastrada com sucesso!", enderecoOrigem, portaServidor);
+                    this.enviarMensagem("5#Sala cadastrada com sucesso!", enderecoOrigem, portaOrigem);
                 } catch (Exception e) {
-                    JOptionPane.showMessageDialog(null, e);
+                    this.enviarMensagem("5#Não foi possível inserir o cadastro. Tente novamente.", enderecoOrigem, portaOrigem);
                 }
-            }
-            else if(mensagemParticionada[0].equals("2")){
-                try{
+            } else if (mensagemParticionada[0].equals("2")) {
+                try {
                     salabd.alterarSala(obj_sala);
-                    this.enviarMensagem("5#Sala alterada com sucesso", enderecoOrigem, portaServidor);
+                    this.enviarMensagem("5#Sala alterada com sucesso", enderecoOrigem, portaOrigem);
+                } catch (Exception e) {
+                    this.enviarMensagem("5#Não foi possível alterar o cadastro. Tente novamente.", enderecoOrigem, portaOrigem);
                 }
-                catch(Exception e){
-                    JOptionPane.showMessageDialog(null, e);
-                }
-            } else if(mensagemParticionada[0].equals("3")){
-                try{
+            } else if (mensagemParticionada[0].equals("3")) {
+                try {
                     salabd.deletarSala(obj_sala);
-                    this.enviarMensagem("5#Sala removida com sucesso", enderecoOrigem, portaServidor);
+                    this.enviarMensagem("5#Sala removida com sucesso", enderecoOrigem, portaOrigem);
+                } catch (Exception e) {
+                    this.enviarMensagem("5#Não foi possível remover o cadastro. Tente novamente.", enderecoOrigem, portaOrigem);
                 }
-                catch(Exception e){
-                    JOptionPane.showMessageDialog(null, e);
-                }
-            } else if(mensagemParticionada[0].equals("4")){
-                try{
+            } else if (mensagemParticionada[0].equals("4")) {
+                try {
                     salabd.consultarSala(obj_sala);
-                    this.enviarMensagem("5#Consulta feita com sucesso!", enderecoOrigem, portaServidor);
-                }
-                catch(Exception e){
-                    JOptionPane.showMessageDialog(null, e);
+                    this.enviarMensagem("5#Consulta feita com sucesso!", enderecoOrigem, portaOrigem);
+                } catch (Exception e) {
+                    this.enviarMensagem("5#Não foi possível buscar o cadastro. Tente novamente.", enderecoOrigem, portaOrigem);
                 }
             }
         } else if (mensagemParticionada[1].equalsIgnoreCase("aula")) {
             AulaVO obj_aula = gson.fromJson(mensagemParticionada[2], AulaVO.class);
             AulaBD aulabd = new AulaBD();
-            
+
             if (mensagemParticionada[0].equals("1")) {
                 try {
                     aulabd.insertAula(obj_aula);
-                    this.enviarMensagem("5#Aula cadastrada com sucesso!", enderecoOrigem, portaServidor);
+                    this.enviarMensagem("5#Aula cadastrada com sucesso!", enderecoOrigem, portaOrigem);
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(null, e);
+                }
+            } else if (mensagemParticionada[0].equals("2")) {
+                try {
+                    aulabd.alterarAula(obj_aula);
+                    this.enviarMensagem("5#Aula alterada com sucesso", enderecoOrigem, portaOrigem);
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(null, e);
+                }
+            } else if (mensagemParticionada[0].equals("3")) {
+                try {
+                    aulabd.deletarAula(obj_aula);
+                    this.enviarMensagem("5#Aula removida com sucesso", enderecoOrigem, portaOrigem);
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(null, e);
+                }
+            } else if (mensagemParticionada[0].equals("4")) {
+                try {
+                    aulabd.consultarAula(obj_aula);
+                    this.enviarMensagem("5#Consulta feita com sucesso!", enderecoOrigem, portaOrigem);
                 } catch (Exception e) {
                     JOptionPane.showMessageDialog(null, e);
                 }
             }
-            else if(mensagemParticionada[0].equals("2")){
-                try{
-                    aulabd.alterarAula(obj_aula);
-                    this.enviarMensagem("5#Aula alterada com sucesso", enderecoOrigem, portaServidor);
-                }
-                catch(Exception e){
+        } else if (mensagemParticionada[1].equalsIgnoreCase("nome da tabela 3")) {
+            // metodos relacionados a tabela 3
+        } else if (mensagemParticionada[1].equalsIgnoreCase("disciplina")) {
+            if (mensagemParticionada[0].equals("4")) {
+                DisciplinaVO vo = new DisciplinaVO();
+                vo.setDependencia("teste");
+                vo.setEmenta("teste");
+                vo.setMetodo_avaliacao("teste");
+                vo.setPre_requisito("teste");
+                vo.setTitulo("teste");
+                vo.setDisciplina_id(100);
+                this.enviarMensagem("6#" + "disciplina#" + gson.toJson(vo), enderecoOrigem, portaOrigem);
+            } else {
+                this.enviarMensagem("5#Ainda nao esta implementado...", enderecoOrigem, portaOrigem);
+            }
+        } else if (mensagemParticionada[1].equalsIgnoreCase("aluno")) {
+            AlunoVO obj_aluno = gson.fromJson(mensagemParticionada[2], AlunoVO.class);
+            AlunoBD alunobd = new AlunoBD();
+
+            if (mensagemParticionada[0].equals("1")) {
+                try {
+                    alunobd.insertAluno(obj_aluno);
+                    this.enviarMensagem("5#Aluno cadastrado com sucesso!", enderecoOrigem, portaOrigem);
+                } catch (Exception e) {
                     JOptionPane.showMessageDialog(null, e);
                 }
-            } else if(mensagemParticionada[0].equals("3")){
-                try{
-                    aulabd.deletarAula(obj_aula);
-                    this.enviarMensagem("5#Aula removida com sucesso", enderecoOrigem, portaServidor);
-                }
-                catch(Exception e){
+            } else if (mensagemParticionada[0].equals("2")) {
+                try {
+                    alunobd.alterarAluno(obj_aluno);
+                    this.enviarMensagem("5#Aluno alterado com sucesso", enderecoOrigem, portaOrigem);
+                } catch (Exception e) {
                     JOptionPane.showMessageDialog(null, e);
                 }
-            } else if(mensagemParticionada[0].equals("4")){
-                try{
-                    aulabd.consultarAula(obj_aula.disciplina_associada);
-                    this.enviarMensagem("5#Consulta feita com sucesso!", enderecoOrigem, portaServidor);
+            } else if (mensagemParticionada[0].equals("3")) {
+                try {
+                    alunobd.deletarAluno(obj_aluno);
+                    this.enviarMensagem("5#Aluno removido com sucesso", enderecoOrigem, portaOrigem);
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(null, e);
                 }
-                catch(Exception e){
+            } else if (mensagemParticionada[0].equals("4")) {
+                try {
+                    alunobd.consultarAluno(obj_aluno);
+                    this.enviarMensagem("5#Consulta feita com sucesso!", enderecoOrigem, portaOrigem);
+                } catch (Exception e) {
                     JOptionPane.showMessageDialog(null, e);
                 }
             }
-        } else if (mensagemParticionada[1].equals("nome da tabela 3")) {
-            // metodos relacionados a tabela 3
-        } else {
+        }
+        
+        else {
             // se nenhum pacote corresponder às regras acima, deve cair aqui
             // e ser ignorado.
+            this.enviarMensagem("5#A estrutura do pacote é inválida. Contate o administrador.", enderecoOrigem, portaOrigem);
         }
     }
 
@@ -185,7 +223,9 @@ public class Processador {
         try {
             this.datagramPacket = new DatagramPacket(mensagem.getBytes(), mensagem.length(), ipDestino, portaDestino);
             this.getDatagramSocket().send(datagramPacket);
-            gravarLog("Mensagem ENVIADA: " + mensagem + "\n", Color.black);
+            gravarLog("Mensagem ENVIADA: " + mensagem + "\n"
+                    + "IP Destino: " + ipDestino.toString() + "\n"
+                    + "Porta destino: " + portaDestino + "\n", Color.black);
         } catch (IOException ex) {
             gravarLog("Falha ao enviar mensagem para " + ipDestino + ":" + portaDestino + ".\n"
                     + "Mensagem: " + mensagem + "\n"
