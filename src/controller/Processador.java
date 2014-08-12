@@ -155,6 +155,8 @@ public class Processador {
                 }
             }
         } else if (mensagemParticionada[1].equalsIgnoreCase("disciplina")) {
+            /*
+            // ********* EXEMPLO ***********
             if (mensagemParticionada[0].equals("4")) {
                 DisciplinaVO vo = new DisciplinaVO();
                 vo.setDependencia("teste");
@@ -167,6 +169,7 @@ public class Processador {
             } else {
                 this.enviarMensagem("5#Ainda nao esta implementado...", enderecoOrigem, portaOrigem);
             }
+            */
         } else if (mensagemParticionada[1].equalsIgnoreCase("aluno")) {
             AlunoVO obj_aluno = gson.fromJson(mensagemParticionada[2], AlunoVO.class);
             AlunoBD alunobd = new AlunoBD();
