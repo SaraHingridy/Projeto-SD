@@ -11,7 +11,6 @@ package model;
  * @author Rauch
  */
 public class AlunoVO {
-    private int aluno_id;
     private int RA;
     private String nome;
     private int idade;
@@ -24,20 +23,6 @@ public class AlunoVO {
     private String curso;
     private int ano_entrada_curso;
     private String disciplinas_matriculadas;
-
-    /**
-     * @return the aluno_id
-     */
-    public int getAluno_id() {
-        return aluno_id;
-    }
-
-    /**
-     * @param aluno_id the aluno_id to set
-     */
-    public void setAluno_id(int aluno_id) {
-        this.aluno_id = aluno_id;
-    }
 
     /**
      * @return the RA

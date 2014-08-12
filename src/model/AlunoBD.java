@@ -34,7 +34,6 @@ public class AlunoBD {
         try {
             Statement stmt = con.createStatement();
             String query = "INSERT INTO aluno("
-                    + "RA"
                     + ", nome"
                     + ", idade"
                     + ", endereco"
@@ -65,8 +64,7 @@ public class AlunoBD {
         try {
             Statement stm = con.createStatement();
             String query = "UPDATE aluno"
-                  + " SET RA = " + alunoVO.getRA()
-                    + ", nome = \'" + alunoVO.getNome() + "\'"
+                  + " SET nome = \'" + alunoVO.getNome() + "\'"
                     + ", idade = " + alunoVO.getIdade()
                     + ", endereco = \'" + alunoVO.getRua() + "\'"
                     + ", endereco = \'" + alunoVO.getNumero() + "\'"
@@ -77,7 +75,7 @@ public class AlunoBD {
                     + ", curso = \'" + alunoVO.getCurso() + "\'"
                     + ", disciplinas_matriculas = \'" + alunoVO.getDisciplinas_matriculadas() + "\'"
                     + ", ano_entrada_curso = " + alunoVO.getAno_entrada_curso()
-                    + "  WHERE  aluno_id =" + alunoVO.getAluno_id();
+                    + "  WHERE  RA =" + alunoVO.getRA();
             System.out.println(query);
             stm.executeUpdate(query);
         } catch (SQLException e) {
@@ -89,7 +87,7 @@ public class AlunoBD {
         try {
             Statement stm = con.createStatement();
             String query = "DELETE FROM aluno"
-                    + " WHERE  aluno_id =" + alunoVO.getAluno_id();
+                    + " WHERE  RA =" + alunoVO.getRA();
             System.out.println(query);
             stm.executeUpdate(query);
         } catch (SQLException e) {
@@ -101,12 +99,9 @@ public class AlunoBD {
         try {
             Statement stm = con.createStatement();
             ResultSet rs;
-            String query = "SELECT aluno_id, RA, nome, idade, endereco,curso "+
+            String query = "SELECT  RA, nome, idade, endereco,curso "+
                     "ano_entrada_curso FROM aluno WHERE 1=1";
             
-            if(alunovo.getAluno_id() != 0) {
-                query += " and aluno_id = "+alunovo.getAluno_id();
-            }
             if(alunovo.getRA() != 0) {
                 query += " and RA = "+alunovo.getRA();
             }
