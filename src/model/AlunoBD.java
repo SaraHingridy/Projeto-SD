@@ -36,9 +36,16 @@ public class AlunoBD {
             String query = "INSERT INTO aluno("
                     + ", nome"
                     + ", idade"
-                    + ", endereco"
+                    + ", rua"
+                    + ", numero"
+                    + ", bairro"
+                    + ", cep"
+                    + ", cidade"
+                    + ", uf"
                     + ", curso"
                     + ", disciplinas_matriculas"
+                    + ", disciplinas_cursadas"
+                    + ", nome_do_curso"
                     + ", ano_entrada_curso)"
                     + "    VALUES (" + alunovo.getRA() 
                     + ",\'" + alunovo.getNome() + "\'"
@@ -51,6 +58,8 @@ public class AlunoBD {
                     + ",\'" + alunovo.getUf() + "\'"
                     + ",\'" + alunovo.getCurso() + "\'"
                     + ",\'" + alunovo.getDisciplinas_matriculadas() + ",\'"
+                    + ",\'" + alunovo.getDisciplinas_cursadas() + ",\'"
+                    + ",\'" + alunovo.getNome_do_curso() + ",\'"
                     + "," + alunovo.getAno_entrada_curso()
                     + ");";
             System.err.println(query);
@@ -66,14 +75,16 @@ public class AlunoBD {
             String query = "UPDATE aluno"
                   + " SET nome = \'" + alunoVO.getNome() + "\'"
                     + ", idade = " + alunoVO.getIdade()
-                    + ", endereco = \'" + alunoVO.getRua() + "\'"
-                    + ", endereco = \'" + alunoVO.getNumero() + "\'"
-                    + ", endereco = \'" + alunoVO.getBairro() + "\'"
-                    + ", endereco = \'" + alunoVO.getCep() + "\'"
-                    + ", endereco = \'" + alunoVO.getCidade() + "\'"
-                    + ", endereco = \'" + alunoVO.getUf() + "\'"
+                    + ", rua = \'" + alunoVO.getRua() + "\'"
+                    + ", numero = \'" + alunoVO.getNumero() + "\'"
+                    + ", bairro = \'" + alunoVO.getBairro() + "\'"
+                    + ", cep = \'" + alunoVO.getCep() + "\'"
+                    + ", cidade = \'" + alunoVO.getCidade() + "\'"
+                    + ", uf = \'" + alunoVO.getUf() + "\'"
                     + ", curso = \'" + alunoVO.getCurso() + "\'"
                     + ", disciplinas_matriculas = \'" + alunoVO.getDisciplinas_matriculadas() + "\'"
+                    + ", disciplinas_cursadas = \'" + alunoVO.getDisciplinas_cursadas() + "\'"
+                    + ", nome_do_curso = \'" + alunoVO.getNome_do_curso() + "\'"
                     + ", ano_entrada_curso = " + alunoVO.getAno_entrada_curso()
                     + "  WHERE  RA =" + alunoVO.getRA();
             System.out.println(query);
@@ -112,28 +123,34 @@ public class AlunoBD {
                 query += " and idade = "+alunovo.getIdade();
             }
             if(alunovo.getRua() != null) {
-                query += " and endereco = \'"+alunovo.getRua()+"\'";
+                query += " and rua = \'"+alunovo.getRua()+"\'";
             }
             if(alunovo.getNumero() != null) {
-                query += " and endereco = \'"+alunovo.getNumero()+"\'";
+                query += " and numero = \'"+alunovo.getNumero()+"\'";
             }
             if(alunovo.getBairro() != null) {
-                query += " and endereco = \'"+alunovo.getBairro()+"\'";
+                query += " and bairro = \'"+alunovo.getBairro()+"\'";
             }
             if(alunovo.getCep() != null) {
-                query += " and endereco = \'"+alunovo.getCep()+"\'";
+                query += " and cep = \'"+alunovo.getCep()+"\'";
             }
             if(alunovo.getCidade() != null) {
-                query += " and endereco = \'"+alunovo.getCidade()+"\'";
+                query += " and cidade = \'"+alunovo.getCidade()+"\'";
             }
             if(alunovo.getUf() != null) {
-                query += " and endereco = \'"+alunovo.getUf()+"\'";
+                query += " and uf = \'"+alunovo.getUf()+"\'";
             }
             if(alunovo.getCurso() != null) {
                 query += " and curso = \'"+alunovo.getCurso()+"\'";
             }
             if(alunovo.getDisciplinas_matriculadas() != null){
                 query += "and disciplinas_matriculas = \'"+alunovo.getDisciplinas_matriculadas()+"\'";
+            }
+            if(alunovo.getDisciplinas_matriculadas() != null){
+                query += "and disciplinas_cursadas = \'"+alunovo.getDisciplinas_cursadas()+"\'";
+            }
+            if(alunovo.getDisciplinas_matriculadas() != null){
+                query += "and nome_do_curso = \'"+alunovo.getNome_do_curso()+"\'";
             }
             if(alunovo.getAno_entrada_curso() != 0) {
                 query += "and ano_entrada_curso = "+alunovo.getAno_entrada_curso();

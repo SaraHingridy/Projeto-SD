@@ -23,6 +23,8 @@ public class AlunoVO {
     private String curso;
     private int ano_entrada_curso;
     private String disciplinas_matriculadas;
+    private String disciplinas_cursadas;
+    private String nome_do_curso;
 
     /**
      * @return the RA
@@ -189,6 +191,34 @@ public class AlunoVO {
      */
     public void setUf(String uf) {
         this.uf = uf;
+    }
+
+    /**
+     * @return the disciplinas_cursadas
+     */
+    public String getDisciplinas_cursadas() {
+        return disciplinas_cursadas;
+    }
+
+    /**
+     * @param disciplinas_cursadas the disciplinas_cursadas to set
+     */
+    public void setDisciplinas_cursadas(String disciplinas_cursadas) {
+        this.disciplinas_cursadas = disciplinas_cursadas;
+    }
+
+    /**
+     * @return the nome_do_curso
+     */
+    public String getNome_do_curso() {
+        return nome_do_curso;
+    }
+
+    /**
+     * @param nome_do_curso the nome_do_curso to set
+     */
+    public void setNome_do_curso(String nome_do_curso) {
+        this.nome_do_curso = nome_do_curso;
     }
 }
 
