@@ -1,5 +1,6 @@
 package model;
 
+import com.google.gson.Gson;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -14,11 +15,13 @@ public class SalaBD {
 
     Conexao conexao;
     Connection con;
+    Gson gson;
 
     public SalaBD() {
         try {
             conexao = new Conexao();
             con = conexao.conectar();
+            gson = new Gson();
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, ex, "erro", JOptionPane.ERROR_MESSAGE);
         }
@@ -75,10 +78,11 @@ public class SalaBD {
         }
     }
 
-    public void consultarSala(SalaVO salavo) throws Exception {
+    public String consultarSala(SalaVO salavo) throws Exception {
         try {
             Statement stm = con.createStatement();
             ResultSet rs;
+            StringBuilder resultJson = new StringBuilder();
             String query = "SELECT sala_id, descricao, num_computadores, recursos_didaticos, departamento, "
                     + "capacidade_alunos FROM sala WHERE 1=1";
 
@@ -100,8 +104,20 @@ public class SalaBD {
             if (salavo.getCapacidade_alunos() != 0) {
                 query += "and capacidade_alunos = " + salavo.getCapacidade_alunos();
             }
-            System.out.println(query);
-            stm.executeUpdate(query);
+            System.err.println(query);
+            rs = stm.executeQuery(query);
+            while(rs.next()) {
+                SalaVO vo = new SalaVO();
+                vo.setSala_id(rs.getInt(1));
+                vo.setDescricao(rs.getString(2));
+                vo.setNum_computadores(rs.getInt(3));
+                vo.setRecursos_didaticos(rs.getString(4));
+                vo.setDepartamento(rs.getString(5));
+                vo.setCapacidade_alunos(rs.getInt(6));
+                
+                resultJson.append(gson.toJson(vo)).append("#");
+            }
+            return resultJson.toString();
         } catch (SQLException e) {
             throw new Exception(e);
         }
