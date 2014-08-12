@@ -116,8 +116,7 @@ public class Processador {
                 }
             } else if (mensagemParticionada[0].equals("4")) {
                 try {
-                    salabd.consultarSala(obj_sala);
-                    this.enviarMensagem("5#Consulta feita com sucesso!", enderecoOrigem, portaOrigem);
+                    this.enviarMensagem("6#sala#"+salabd.consultarSala(obj_sala), enderecoOrigem, portaOrigem);
                 } catch (Exception e) {
                     this.enviarMensagem("5#Não foi possível buscar o cadastro. Tente novamente.", enderecoOrigem, portaOrigem);
                 }
@@ -149,7 +148,7 @@ public class Processador {
                 }
             } else if (mensagemParticionada[0].equals("4")) {
                 try {
-                    aulabd.consultarAula(obj_aula);
+                    aulabd.consultarAula(obj_aula.getDisciplina_associada());
                     this.enviarMensagem("5#Consulta feita com sucesso!", enderecoOrigem, portaOrigem);
                 } catch (Exception e) {
                     JOptionPane.showMessageDialog(null, e);
@@ -177,9 +176,9 @@ public class Processador {
                     JOptionPane.showMessageDialog(null, e);
                 }
             }
-        } else if (mensagemParticionada[1].equalsIgnoreCase("nome da tabela 3")) {
-            // metodos relacionados a tabela 3
         } else if (mensagemParticionada[1].equalsIgnoreCase("disciplina")) {
+            /*
+            // ********* EXEMPLO ***********
             if (mensagemParticionada[0].equals("4")) {
                 DisciplinaVO vo = new DisciplinaVO();
                 vo.setDependencia("teste");
@@ -192,6 +191,7 @@ public class Processador {
             } else {
                 this.enviarMensagem("5#Ainda nao esta implementado...", enderecoOrigem, portaOrigem);
             }
+            */
         } else if (mensagemParticionada[1].equalsIgnoreCase("aluno")) {
             AlunoVO obj_aluno = gson.fromJson(mensagemParticionada[2], AlunoVO.class);
             AlunoBD alunobd = new AlunoBD();
