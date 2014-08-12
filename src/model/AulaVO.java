@@ -10,8 +10,9 @@ package model;
  */
 public class AulaVO {
     public int aula_id;
-    public int disciplina_associada;
-    public int sala_aula_associada;
+    public int[] disciplina_associada;
+    public String[] titulo;
+    public int[] sala_aula_associada;
     public String conteudo_programatico;
     public String[] alunos_presentes;
 
@@ -23,19 +24,19 @@ public class AulaVO {
         this.aula_id = aula_id;
     }
 
-    public int getDisciplina_associada() {
+    public int[] getDisciplina_associada() {
         return disciplina_associada;
     }
 
-    public void setDisciplina_associada(int disciplina_associada) {
+    public void setDisciplina_associada(int[] disciplina_associada) {
         this.disciplina_associada = disciplina_associada;
     }
 
-    public int getSala_aula_associada() {
+    public int[] getSala_aula_associada() {
         return sala_aula_associada;
     }
 
-    public void setSala_aula_associada(int sala_aula_associada) {
+    public void setSala_aula_associada(int[] sala_aula_associada) {
         this.sala_aula_associada = sala_aula_associada;
     }
 
@@ -53,5 +54,13 @@ public class AulaVO {
 
     public void setAlunos_presentes(String[] alunos_presentes) {
         this.alunos_presentes = alunos_presentes;
+    }
+
+    public String[] getTitulo() {
+        return titulo;
+    }
+
+    public void setTitulo(String[] titulo) {
+        this.titulo = titulo;
     }
 }

@@ -75,12 +75,12 @@ public class AulaBD{
         }
     }
     
-    public void consultarAula(int disciplina) throws Exception {
+    public void consultarAula(AulaVO aulavo) throws Exception {
         try {
             Statement stm = con.createStatement();
             ResultSet rs;
-            String query = "SELECT aula_id, disciplina_associada, sala_aula_associada, conteudo_programatico, alunos_presentes, "+
-                    " FROM aula WHERE disciplina_associada = '"+disciplina+"' ";
+            String query = "SELECT aula_id, disciplina_associada, sala_aula_associada, conteudo_programatico, alunos_presentes "+
+                    " FROM aula WHERE disciplina_associada = '"+aulavo.getDisciplina_associada()+"' ";
             
             /*if(aulavo.getAula_id() != 0) {
                 query += " and aula_id = "+aulavo.getAula_id();
@@ -100,6 +100,44 @@ public class AulaBD{
             System.out.println(query);
             
             //stm.executeUpdate(query);
+        } catch (SQLException e) {
+            throw new Exception(e);
+        }
+    }
+    
+    public void preencherAula(AulaVO aulavo) throws Exception {
+        try {
+            Statement stm = con.createStatement();
+            ResultSet rs;
+            String query = "SELECT disciplina_id, titulo "+
+                    " FROM disciplina ";
+            
+           rs = stm.executeQuery(query);
+           int i = 0;
+           while(rs.next()){
+               int disciplina_id = rs.getInt("disciplina_id");
+               String titulo = rs.getString("titulo");
+               int[] array_disciplina = new int[10];
+               String[] array_titulo = new String[10];
+               array_disciplina[i] = disciplina_id;
+               array_titulo[i] = titulo;
+               aulavo.setDisciplina_associada(array_disciplina);
+               aulavo.setTitulo(array_titulo);
+               i++;
+           }
+           
+           String query2 = "SELECT sala_id "+
+                    " FROM sala ";
+            
+           rs = stm.executeQuery(query);
+           int j = 0;
+           while(rs.next()){
+               int sala_id = rs.getInt("sala_id");
+               int[] array_sala = new int[10];
+               array_sala[j] = sala_id;
+               aulavo.setSala_aula_associada(array_sala);
+               j++;
+           }
         } catch (SQLException e) {
             throw new Exception(e);
         }

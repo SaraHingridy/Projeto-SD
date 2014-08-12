@@ -154,6 +154,28 @@ public class Processador {
                 } catch (Exception e) {
                     JOptionPane.showMessageDialog(null, e);
                 }
+            } else if (mensagemParticionada[0].equals("7")) {//Preencher combobox da tela
+                System.out.println("Entrou aqui no 7");
+                try {
+                    AulaVO vo = new AulaVO();
+                    int[] disciplina = new int[10];
+                    disciplina[1] = 1;
+                    int[] sala = new int[10];
+                    sala[1] = 1;
+                    String[] titulo = new String[10];
+                    titulo[1] = "Titulo teste";
+                    String[] aluno = new String[10];
+                    aluno[1] = "Aluno teste";
+                vo.setAlunos_presentes(aluno);
+                vo.setConteudo_programatico("testando conteudo");
+                vo.setDisciplina_associada(disciplina);
+                vo.setTitulo(titulo);
+                vo.setSala_aula_associada(sala);
+                    //aulabd.preencherAula(obj_aula);
+                    this.enviarMensagem("6#" + "disciplina#" + gson.toJson(aulabd), enderecoOrigem, portaOrigem);
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(null, e);
+                }
             }
         } else if (mensagemParticionada[1].equalsIgnoreCase("nome da tabela 3")) {
             // metodos relacionados a tabela 3

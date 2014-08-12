@@ -18,7 +18,7 @@ public class Conexao {
     public Connection conectar() throws Exception {
         try {
             Class.forName("org.postgresql.Driver"); // nome do driver
-            conexao = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres","postgres", "1163264");            
+            conexao = DriverManager.getConnection("jdbc:postgresql://localhost:5433/postgres","postgres", "123456");            
             return conexao;
         } catch (ClassNotFoundException ex) {
             throw new Exception("Erro na localização do driver!\n(" + ex.getMessage() + ")");
